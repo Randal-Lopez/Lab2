@@ -1,11 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TareaModel = void 0;
-class TareaModel {
-    id;
-    titulo;
-    descripcion;
-    completada;
+export class TareaModel {
     constructor(id, titulo, descripcion, completada = false) {
         this.id = id;
         this.titulo = titulo;
@@ -13,4 +6,3 @@ class TareaModel {
         this.completada = completada;
     }
 }
-exports.TareaModel = TareaModel;

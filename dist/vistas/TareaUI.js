@@ -1,9 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TareaUI = void 0;
-class TareaUI {
-    contenedorLista;
-    formulario;
+export class TareaUI {
     constructor() {
         this.contenedorLista = document.getElementById('lista-tareas');
         this.formulario = document.getElementById('form-tarea');
@@ -13,8 +8,8 @@ class TareaUI {
             evento.preventDefault();
             const inputTitulo = document.getElementById('titulo');
             const inputDesc = document.getElementById('descripcion');
-            if (inputTitulo.value && inputDesc.value) {
-                manejador(inputTitulo.value, inputDesc.value);
+            if (inputTitulo.value.trim() && inputDesc.value.trim()) {
+                manejador(inputTitulo.value.trim(), inputDesc.value.trim());
                 this.formulario.reset();
             }
         });
@@ -39,6 +34,18 @@ class TareaUI {
             }
         });
     }
+    vincularBuscar(manejador) {
+        const inputBuscar = document.getElementById('buscar');
+        inputBuscar.addEventListener('input', () => {
+            manejador(inputBuscar.value);
+        });
+    }
+    vincularFiltrar(manejador) {
+        const selector = document.getElementById('filtro-estado');
+        selector.addEventListener('change', () => {
+            manejador(selector.value);
+        });
+    }
     mostrarTareas(tareas) {
         this.contenedorLista.innerHTML = '';
         tareas.forEach(tarea => {
@@ -46,13 +53,15 @@ class TareaUI {
             li.dataset.id = tarea.id;
             li.innerHTML = `
                 <input type="checkbox" ${tarea.completada ? 'checked' : ''}>
+
                 <span style="${tarea.completada ? 'text-decoration: line-through' : ''}">
                     <strong>${tarea.titulo}</strong>: ${tarea.descripcion}
+                    <small>(${tarea.completada ? 'Completada' : 'Pendiente'})</small>
                 </span>
+
                 <button class="btn-eliminar">Borrar</button>
             `;
             this.contenedorLista.appendChild(li);
         });
     }
 }
-exports.TareaUI = TareaUI;

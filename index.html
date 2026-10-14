@@ -1,42 +1,69 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Tareas - Proyecto 1</title>
-    <!-- Conectamos la hoja de estilos -->
-    <link rel="stylesheet" href="style.css">
+    <title>Gestión de tareas</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="contenedor">
-        <h1>Mis Tareas</h1>
-        
-        <div class="caja-formulario">
-            <!-- Formulario para agregar tareas -->
+
+    <main class="contenedor">
+        <h1>Gestión de tareas</h1>
+
+        <!-- Formulario para agregar tareas -->
+        <section>
+            <h2>Agregar nueva tarea</h2>
+
             <form id="form-tarea">
-                <div class="grupo-input">
-                    <label for="titulo">Título de la tarea:</label>
-                    <input type="text" id="titulo" placeholder="Ej. Terminar laboratorio de Programación" required>
-                </div>
-                
-                <div class="grupo-input">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" placeholder="Hacer el diagrama de clases y compilar en TypeScript..." required></textarea>
-                </div>
-                
-                <button type="submit" class="btn-guardar">Agregar Tarea</button>
+                <label for="titulo">Título:</label>
+                <input
+                    type="text"
+                    id="titulo"
+                    placeholder="Escribe el título"
+                    required
+                >
+
+                <label for="descripcion">Descripción:</label>
+                <textarea
+                    id="descripcion"
+                    placeholder="Escribe la descripción"
+                    required
+                ></textarea>
+
+                <button type="submit">Agregar tarea</button>
             </form>
-        </div>
+        </section>
 
-        <div class="caja-lista">
-            <h2>Tareas Pendientes y Completadas</h2>
-            <!-- Aquí TypeScript inyectará los elementos <li> -->
+        <hr>
+
+        <!-- Búsqueda y filtros -->
+        <section>
+            <h2>Mis tareas</h2>
+
+            <label for="buscar">Buscar por título:</label>
+            <input
+                type="text"
+                id="buscar"
+                placeholder="Escribe para buscar..."
+            >
+
+            <label for="filtro-estado">Filtrar por estado:</label>
+            <select id="filtro-estado">
+                <option value="todas">Todas las tareas</option>
+                <option value="pendientes">Pendientes</option>
+                <option value="completadas">Completadas</option>
+            </select>
+
+            <!-- Aquí se mostrarán las tareas -->
             <ul id="lista-tareas"></ul>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <!-- Script principal compilado -->
-    <!-- Nota: Dependiendo de tu configuración de TypeScript, aquí va app.js -->
-    <script type="module" src="./dist/app.js"></script>
+    <!-- Archivo JavaScript generado por TypeScript -->
+    <script type="module" src="./dist/App.js"></script>
+
 </body>
 </html>
+```

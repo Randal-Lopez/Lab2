@@ -1,42 +1,57 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppController = void 0;
-const TareaModel_js_1 = require("../modelos/TareaModel.js");
-class AppController {
-    ui;
-    storage;
-    arregloTareas;
+import { TareaModel } from '../modelos/TareaModel.js';
+export class AppController {
     constructor(ui, storage) {
         this.ui = ui;
         this.storage = storage;
+        this.textoBusqueda = '';
+        this.estadoFiltro = 'todas';
         this.arregloTareas = this.storage.obtenerDatos();
-        // Conectando la vista con los métodos de este controlador
         this.ui.vincularAgregar(this.agregarNuevaTarea.bind(this));
         this.ui.vincularEliminar(this.borrarTarea.bind(this));
         this.ui.vincularCompletar(this.cambiarEstado.bind(this));
-        // Carga inicial
-        this.ui.mostrarTareas(this.arregloTareas);
+        this.ui.vincularBuscar(this.buscarTareas.bind(this));
+        this.ui.vincularFiltrar(this.filtrarTareas.bind(this));
+        this.mostrarTareas();
     }
     agregarNuevaTarea(titulo, descripcion) {
-        // Usamos la fecha actual como ID único para no depender de librerías externas
         const nuevoId = new Date().getTime().toString();
-        const nuevaTarea = new TareaModel_js_1.TareaModel(nuevoId, titulo, descripcion);
+        const nuevaTarea = new TareaModel(nuevoId, titulo, descripcion);
         this.arregloTareas.push(nuevaTarea);
         this.storage.guardarDatos(this.arregloTareas);
-        this.ui.mostrarTareas(this.arregloTareas);
+        this.mostrarTareas();
     }
     borrarTarea(id) {
         this.arregloTareas = this.arregloTareas.filter(t => t.id !== id);
         this.storage.guardarDatos(this.arregloTareas);
-        this.ui.mostrarTareas(this.arregloTareas);
+        this.mostrarTareas();
     }
     cambiarEstado(id) {
         const tareaEncontrada = this.arregloTareas.find(t => t.id === id);
         if (tareaEncontrada) {
             tareaEncontrada.completada = !tareaEncontrada.completada;
             this.storage.guardarDatos(this.arregloTareas);
-            this.ui.mostrarTareas(this.arregloTareas);
+            this.mostrarTareas();
         }
     }
+    buscarTareas(texto) {
+        this.textoBusqueda = texto;
+        this.mostrarTareas();
+    }
+    filtrarTareas(estado) {
+        this.estadoFiltro = estado;
+        this.mostrarTareas();
+    }
+    mostrarTareas() {
+        let resultado = this.arregloTareas;
+        if (this.estadoFiltro === 'pendientes') {
+            resultado = resultado.filter(t => !t.completada);
+        }
+        else if (this.estadoFiltro === 'completadas') {
+            resultado = resultado.filter(t => t.completada);
+        }
+        if (this.textoBusqueda.trim() !== '') {
+            resultado = resultado.filter(t => t.titulo.toLowerCase().includes(this.textoBusqueda.toLowerCase()));
+        }
+        this.ui.mostrarTareas(resultado);
+    }
 }
-exports.AppController = AppController;

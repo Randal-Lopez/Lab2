@@ -6,11 +6,27 @@ export class StorageHelper<T> {
     }
 
     guardarDatos(datos: T[]): void {
-        localStorage.setItem(this.clave, JSON.stringify(datos));
+        try {
+            localStorage.setItem(this.clave, JSON.stringify(datos));
+            console.log('Tareas guardadas correctamente:', datos);
+        } catch (error) {
+            console.error('Error al guardar las tareas:', error);
+            alert('No se pudieron guardar las tareas. Revisa la consola del navegador.');
+        }
     }
 
     obtenerDatos(): T[] {
-        const datos = localStorage.getItem(this.clave);
-        return datos ? JSON.parse(datos) : [];
+        try {
+            const datos = localStorage.getItem(this.clave);
+
+            if (!datos) {
+                return [];
+            }
+
+            return JSON.parse(datos) as T[];
+        } catch (error) {
+            console.error('Error al recuperar las tareas:', error);
+            return [];
+        }
     }
 }

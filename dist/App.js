@@ -1,11 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const TareaUI_js_1 = require("./vistas/TareaUI.js");
-const AppController_js_1 = require("./controladores/AppController.js");
-const StorageHelper_js_1 = require("./utilidades/StorageHelper.js");
-document.addEventListener('DOMContentLoaded', () => {
-    // Almacenamiento local con clave personalizada
-    const dbHelper = new StorageHelper_js_1.StorageHelper('mis_tareas_lab2');
-    const interfaz = new TareaUI_js_1.TareaUI();
-    const aplicacion = new AppController_js_1.AppController(interfaz, dbHelper);
-});
+import { AppController } from './controladores/AppController.js';
+import { StorageHelper } from './utilidades/StorageHelper.js';
+import { TareaUI } from './vistas/TareaUI.js';
+const ui = new TareaUI();
+const storage = new StorageHelper('tareas');
+new AppController(ui, storage);

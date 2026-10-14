@@ -1,17 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StorageHelper = void 0;
-class StorageHelper {
-    clave;
+export class StorageHelper {
     constructor(clave) {
         this.clave = clave;
     }
     guardarDatos(datos) {
-        localStorage.setItem(this.clave, JSON.stringify(datos));
+        try {
+            localStorage.setItem(this.clave, JSON.stringify(datos));
+            console.log('Tareas guardadas correctamente:', datos);
+        }
+        catch (error) {
+            console.error('Error al guardar las tareas:', error);
+            alert('No se pudieron guardar las tareas. Revisa la consola del navegador.');
+        }
     }
     obtenerDatos() {
-        const datos = localStorage.getItem(this.clave);
-        return datos ? JSON.parse(datos) : [];
+        try {
+            const datos = localStorage.getItem(this.clave);
+            if (!datos) {
+                return [];
+            }
+            return JSON.parse(datos);
+        }
+        catch (error) {
+            console.error('Error al recuperar las tareas:', error);
+            return [];
+        }
     }
 }
-exports.StorageHelper = StorageHelper;
